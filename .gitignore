@@ -37,3 +37,4 @@ lerna-debug.log*
 
 #Environment Variables
 .env
+src/firebase/psychologist-app-2e2d5-firebase-adminsdk-qvebw-9f1e6b3aa3.json

@@ -1,15 +1,25 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { Prisma, User } from '@prisma/client';
 import { PrismaService } from 'prisma/prisma.service';
-
+import * as admin from 'firebase-admin';
 @Injectable()
 export class UsersService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    @Inject('FIREBASE')
+    private firebase: admin.app.App,
+    private prisma: PrismaService,
+  ) {}
 
-  createUserAndPsychologist(
+  async createUserAndPsychologist(
     user: Prisma.UserCreateInput,
     psychologist: Prisma.PsychologistCreateInput,
   ) {
+    // const x = await this.firebase.auth().createUser({
+    //   displayName: 'Lucas',
+    //   email: 'lucas.lopesx4@gmail.com',
+    //   password: 'lucas1234',
+    // });
+
     return this.prisma.user.create({
       data: {
         ...user,
