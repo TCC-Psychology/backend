@@ -11,6 +11,8 @@ import { MedicalRecordModule } from './medical-record/medical-record.module';
 import { TriageModule } from './triage/triage.module';
 import { MedicalAppointmentModule } from './medical-appointment/medical-appointment.module';
 import { NotificationsModule } from './notifications/notifications.module';
+import { ReviewModule } from './review/review.module';
+import { FirebaseModule } from './firebase/firebase.module';
 
 @Module({
   imports: [
@@ -24,6 +26,8 @@ import { NotificationsModule } from './notifications/notifications.module';
     TriageModule,
     MedicalAppointmentModule,
     NotificationsModule,
+    ReviewModule,
+    FirebaseModule,
   ],
   controllers: [AppController],
   providers: [AppService],
