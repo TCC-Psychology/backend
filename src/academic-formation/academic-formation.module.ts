@@ -4,10 +4,9 @@ import { AcademicFormationController } from './academic-formation.controller';
 import { PrismaService } from 'prisma/prisma.service';
 import { UsersController } from 'src/users/users.controller';
 import { UsersService } from 'src/users/users.service';
-import { FirebaseModule } from 'src/firebase/firebase.module';
 
 @Module({
-  imports: [FirebaseModule],
+  imports: [],
   controllers: [AcademicFormationController],
   providers: [
     AcademicFormationService,
