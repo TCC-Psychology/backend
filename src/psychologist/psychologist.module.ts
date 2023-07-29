@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { PsychologistService } from './psychologist.service';
 import { PsychologistController } from './psychologist.controller';
-import { PrismaService } from 'prisma/prisma.service';
 
 @Module({
+  imports: [],
   controllers: [PsychologistController],
-  providers: [PsychologistService, PrismaService],
+  providers: [PsychologistService],
 })
 export class PsychologistModule {}

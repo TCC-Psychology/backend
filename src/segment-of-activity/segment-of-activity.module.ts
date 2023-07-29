@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { SegmentOfActivityService } from './segment-of-activity.service';
 import { SegmentOfActivityController } from './segment-of-activity.controller';
-import { PrismaService } from 'prisma/prisma.service';
 
 @Module({
+  imports: [],
   controllers: [SegmentOfActivityController],
-  providers: [SegmentOfActivityService, PrismaService],
+  providers: [SegmentOfActivityService],
 })
 export class SegmentOfActivityModule {}
