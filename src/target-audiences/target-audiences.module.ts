@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { TargetAudiencesService } from './target-audiences.service';
 import { TargetAudiencesController } from './target-audiences.controller';
-import { PrismaService } from 'prisma/prisma.service';
 
 @Module({
+  imports: [],
   controllers: [TargetAudiencesController],
-  providers: [TargetAudiencesService, PrismaService],
+  providers: [TargetAudiencesService],
 })
 export class TargetAudiencesModule {}

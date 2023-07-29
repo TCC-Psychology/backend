@@ -12,6 +12,7 @@ import { TriageModule } from './triage/triage.module';
 import { MedicalAppointmentModule } from './medical-appointment/medical-appointment.module';
 import { NotificationsModule } from './notifications/notifications.module';
 import { ReviewModule } from './review/review.module';
+import { PrismaModule } from 'prisma/prisma.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { ReviewModule } from './review/review.module';
     MedicalAppointmentModule,
     NotificationsModule,
     ReviewModule,
+    PrismaModule,
   ],
   controllers: [AppController],
   providers: [AppService],
