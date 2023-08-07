@@ -6,7 +6,6 @@ import {
   Patch,
   Param,
   Delete,
-  Optional,
 } from '@nestjs/common';
 import { MedicalRecordService } from './medical-record.service';
 import { Prisma } from '@prisma/client';
@@ -18,13 +17,13 @@ export class MedicalRecordController {
   @Post('/:psychologistId/:clientId?')
   create(
     @Body() medicalRecord: Prisma.MedicalRecordCreateInput,
-    @Param('psychologistId') psychologistId: number,
-    @Optional() @Param('clientId') clientId?: number,
+    @Param('psychologistId') psychologistId: string,
+    @Param('clientId') clientId: string,
   ) {
     return this.medicalRecordService.create(
       medicalRecord,
-      psychologistId,
-      clientId,
+      Number(psychologistId),
+      Number(clientId),
     );
   }
 

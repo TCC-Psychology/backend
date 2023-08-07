@@ -56,14 +56,14 @@ export class MedicalAppointmentController {
     if (clientId == 'null' && psychologistId == 'null')
       return 'O paciente ou o psicólogo deve ser informados';
 
-    if (clientId == 'null') {
+    if (clientId != 'null') {
       const cliente = await this.clienteService.findOne(Number(clientId));
       if (!cliente) {
         return 'O cliente não existe!';
       }
     }
 
-    if (psychologistId == 'null') {
+    if (psychologistId != 'null') {
       const psychologist = await this.psychologistService.findOne(
         Number(psychologistId),
       );

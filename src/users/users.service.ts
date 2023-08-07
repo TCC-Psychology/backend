@@ -19,11 +19,11 @@ export class UsersService {
     });
   }
 
-  createUserAndClient(
+  async createUserAndClient(
     user: Prisma.UserCreateInput,
     client: Prisma.ClientCreateInput,
   ) {
-    return this.prisma.user.create({
+    return await this.prisma.user.create({
       data: {
         ...user,
         client: {
@@ -61,12 +61,14 @@ export class UsersService {
     return user;
   }
 
-  findOne(id: number) {
-    return this.prisma.user.findUnique({
+  async findOne(id: number) {
+    const user = await this.prisma.user.findUnique({
       where: {
         id: id,
       },
     });
+
+    return user;
   }
 
   update(id: number, user: Prisma.UserUpdateInput) {
