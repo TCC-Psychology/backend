@@ -12,28 +12,28 @@ model User {
   id           Int           @id @default(autoincrement())
   name         String
   cpf          String
-  birthDate    DateTime
-  imageUrl     String
-  city         String
-  state        String
-  cep          String
+  birthDate    DateTime?
+  imageUrl     String?
+  city         String?
+  state        String?
+  cep          String?
   phone        String
-  description  String
+  description  String?
   email        String        @unique
   password     String
-  gender       String
+  gender       String?
   client       Client?
   psychologist Psychologist?
 }
 
 model Client {
   id                  Int                  @id @default(autoincrement())
-  religion            String
-  relationshipStatus  RelationshipStatus
-  fatherName          String
-  fatherOccupation    String
-  motherName          String
-  motherOccupation    String
+  religion            String?
+  relationshipStatus  RelationshipStatus?
+  fatherName          String?
+  fatherOccupation    String?
+  motherName          String?
+  motherOccupation    String?
   medicalAppointments MedicalAppointment[]
   notifications       Notification[]
   reviews             Review[]
@@ -53,7 +53,7 @@ enum RelationshipStatus {
 
 model Psychologist {
   id                  Int                  @id @default(autoincrement())
-  certificationNumber String               @unique
+  certificationNumber String?               @unique
   medicalAppointments MedicalAppointment[]
   notifications       Notification[]
   reviews             Review[]
@@ -118,7 +118,7 @@ model Review {
   id             Int          @id @default(autoincrement())
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
-  description    String
+  description    String?
   rating         Int
   client         Client       @relation(fields: [clientId], references: [id])
   clientId       Int
@@ -130,13 +130,13 @@ model MedicalRecord {
   id              Int          @id @default(autoincrement())
   createdAt       DateTime     @default(now())
   updatedAt       DateTime     @updatedAt
-  notes           String
+  notes           String?
   theme           String
   mood            String //Devemos trocar para enum? e deixar pré definidas as opções de humor?
   objective       String
   evolutionRecord String
-  client          Client?      @relation(fields: [clientId], references: [id])
-  clientId        Int?
+  client          Client      @relation(fields: [clientId], references: [id])
+  clientId        Int
   psychologist    Psychologist @relation(fields: [psychologistId], references: [id])
   psychologistId  Int
 }
@@ -147,7 +147,7 @@ model AcademicFormation {
   updatedAt      DateTime     @updatedAt
   institution    String
   course         String
-  description    String
+  description    String?
   startDate      DateTime
   endDate        DateTime
   psychologist   Psychologist @relation(fields: [psychologistId], references: [id])
