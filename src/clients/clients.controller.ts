@@ -29,6 +29,11 @@ export class ClientsController {
     return this.clientsService.findOne(+id);
   }
 
+  @Get('getClientByUserId/:userId')
+  findOneForUserId(@Param('userId') userId: string) {
+    return this.clientsService.findOneForUserId(Number(userId));
+  }
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() client: Prisma.ClientUpdateInput) {
     return this.clientsService.update(+id, client);

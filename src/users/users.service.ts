@@ -23,7 +23,7 @@ export class UsersService {
     user: Prisma.UserCreateInput,
     client: Prisma.ClientCreateInput,
   ) {
-    return await this.prisma.user.create({
+    const userCriado = await this.prisma.user.create({
       data: {
         ...user,
         client: {
@@ -31,6 +31,8 @@ export class UsersService {
         },
       },
     });
+
+    return userCriado;
   }
 
   findAll() {

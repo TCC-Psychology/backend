@@ -27,11 +27,12 @@ export class UsersController {
     },
   ) {
     const { user, psychologist } = data;
+    user.birthDate = user.birthDate?.toString();
     return this.usersService.createUserAndPsychologist(user, psychologist);
   }
 
   @Post('createUserAndClient')
-  createUserAndClient(
+  async createUserAndClient(
     @Body()
     data: {
       user: Prisma.UserCreateInput;
@@ -39,7 +40,15 @@ export class UsersController {
     },
   ) {
     const { user, client } = data;
-    return this.usersService.createUserAndClient(user, client);
+    if (user.birthDate) {
+      user.birthDate = user.birthDate + 'Z';
+    }
+    const usercriado = await this.usersService.createUserAndClient(
+      user,
+      client,
+    );
+
+    return usercriado;
   }
 
   @Get()
