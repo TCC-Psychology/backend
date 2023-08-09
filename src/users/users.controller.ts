@@ -71,6 +71,12 @@ export class UsersController {
     return this.usersService.getUserByPsychologistId(+psychologistId);
   }
 
+  //Use essa rota para colocar varios params  nulaveis.  Exemplo : Email, numero, cpf e etc
+  @Get('getUserByProperties/:cpf')
+  getUserByProperties(@Param('cpf') cpf: string) {
+    return this.usersService.getUserByProperties(cpf);
+  }
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() user: Prisma.UserUpdateInput) {
     return this.usersService.update(+id, user);

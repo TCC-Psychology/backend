@@ -52,11 +52,21 @@ export class UsersService {
   }
 
   async getUserByPsychologistId(psychologistId: number): Promise<User | null> {
-    const user = this.prisma.user.findFirst({
+    const user = await this.prisma.user.findFirst({
       where: {
         psychologist: {
           id: psychologistId,
         },
+      },
+    });
+
+    return user;
+  }
+
+  async getUserByProperties(cpf: string): Promise<User | null> {
+    const user = await this.prisma.user.findFirst({
+      where: {
+        cpf: cpf,
       },
     });
 
