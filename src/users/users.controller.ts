@@ -63,18 +63,27 @@ export class UsersController {
 
   @Get('getUserByClientId/:clientId')
   getUserByClientId(@Param('clientId') clientId: string) {
-    return this.usersService.getUserByClientId(+clientId);
+    return this.usersService.getUserByClientId(Number(clientId));
   }
 
   @Get('getUserByPsychologistId/:psychologistId')
   getUserByPsychologistId(@Param('psychologistId') psychologistId: string) {
-    return this.usersService.getUserByPsychologistId(+psychologistId);
+    const user = this.usersService.getUserByPsychologistId(
+      Number(psychologistId),
+    );
+
+    return user;
   }
 
   //Use essa rota para colocar varios params  nulaveis.  Exemplo : Email, numero, cpf e etc
   @Get('getUserByProperties/:cpf')
   getUserByProperties(@Param('cpf') cpf: string) {
     return this.usersService.getUserByProperties(cpf);
+  }
+
+  @Get('login/:phone/:password')
+  canLogin(@Param('phone') phone: string, @Param('senha') password: string) {
+    return this.usersService.canLogin(phone, password);
   }
 
   @Patch(':id')

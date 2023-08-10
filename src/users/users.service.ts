@@ -40,7 +40,7 @@ export class UsersService {
   }
 
   async getUserByClientId(clientId: number): Promise<User | null> {
-    const user = this.prisma.user.findFirst({
+    const user = await this.prisma.user.findFirst({
       where: {
         client: {
           id: clientId,
@@ -71,6 +71,17 @@ export class UsersService {
     });
 
     return user;
+  }
+
+  async canLogin(phone: string, password: string): Promise<boolean> {
+    const user = await this.prisma.user.findFirst({
+      where: {
+        phone: phone,
+        password: password,
+      },
+    });
+
+    return user != null ? true : false;
   }
 
   async findOne(id: number) {
