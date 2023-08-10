@@ -27,9 +27,15 @@ export class MedicalRecordController {
     );
   }
 
-  @Get()
-  findAll() {
-    return this.medicalRecordService.findAll();
+  @Get(':clientId/:psychologistId')
+  async findAll(
+    @Param('clientId') clientId: string,
+    @Param('psychologistId') psychologistId: string,
+  ) {
+    return this.medicalRecordService.findAll(
+      Number(clientId),
+      Number(psychologistId),
+    );
   }
 
   @Get(':id')

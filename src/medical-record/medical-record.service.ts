@@ -30,8 +30,13 @@ export class MedicalRecordService {
     });
   }
 
-  findAll() {
-    return this.prisma.medicalRecord.findMany();
+  async findAll(clientId: number, psychologistId: number) {
+    return await this.prisma.medicalRecord.findMany({
+      where: {
+        clientId: clientId,
+        psychologistId: psychologistId,
+      },
+    });
   }
 
   findOne(id: number) {
