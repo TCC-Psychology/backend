@@ -27,7 +27,7 @@ export class UsersController {
     },
   ) {
     const { user, psychologist } = data;
-    user.birthDate = user.birthDate?.toString();
+
     return this.usersService.createUserAndPsychologist(user, psychologist);
   }
 
@@ -43,12 +43,12 @@ export class UsersController {
     if (user.birthDate) {
       user.birthDate = user.birthDate + 'Z';
     }
-    const usercriado = await this.usersService.createUserAndClient(
+    const userCreated = await this.usersService.createUserAndClient(
       user,
       client,
     );
 
-    return usercriado;
+    return userCreated;
   }
 
   @Get()

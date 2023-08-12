@@ -27,7 +27,7 @@ export class MedicalAppointmentController {
     @Param('psychologistId') psychologistId: string,
   ) {
     if (clientId == 'null' || psychologistId == 'null')
-      return 'O paciente ou psicólogo devem ser informados';
+      return 'O paciente e o psicólogo devem ser informados';
 
     const cliente = await this.clienteService.findOne(Number(clientId));
     if (!cliente) {
