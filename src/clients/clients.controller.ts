@@ -30,8 +30,8 @@ export class ClientsController {
   }
 
   @Get('getClientByUserId/:userId')
-  findOneForUserId(@Param('userId') userId: string) {
-    return this.clientsService.findOneForUserId(Number(userId));
+  findOneByUserId(@Param('userId') userId: string) {
+    return this.clientsService.findOneByUserId(Number(userId));
   }
 
   @Patch(':id')
