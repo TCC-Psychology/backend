@@ -19,11 +19,11 @@ export class UsersService {
     });
   }
 
-  createUserAndClient(
+  async createUserAndClient(
     user: Prisma.UserCreateInput,
     client: Prisma.ClientCreateInput,
   ) {
-    return this.prisma.user.create({
+    const userCriado = await this.prisma.user.create({
       data: {
         ...user,
         client: {
@@ -31,6 +31,8 @@ export class UsersService {
         },
       },
     });
+
+    return userCriado;
   }
 
   findAll() {
@@ -38,7 +40,7 @@ export class UsersService {
   }
 
   async getUserByClientId(clientId: number): Promise<User | null> {
-    const user = this.prisma.user.findFirst({
+    const user = await this.prisma.user.findFirst({
       where: {
         client: {
           id: clientId,
@@ -50,7 +52,7 @@ export class UsersService {
   }
 
   async getUserByPsychologistId(psychologistId: number): Promise<User | null> {
-    const user = this.prisma.user.findFirst({
+    const user = await this.prisma.user.findFirst({
       where: {
         psychologist: {
           id: psychologistId,
@@ -61,12 +63,35 @@ export class UsersService {
     return user;
   }
 
-  findOne(id: number) {
-    return this.prisma.user.findUnique({
+  async getUserByProperties(cpf: string): Promise<User | null> {
+    const user = await this.prisma.user.findFirst({
+      where: {
+        cpf: cpf,
+      },
+    });
+
+    return user;
+  }
+
+  async canLogin(phone: string, password: string): Promise<boolean> {
+    const user = await this.prisma.user.findFirst({
+      where: {
+        phone: phone,
+        password: password,
+      },
+    });
+
+    return user != null ? true : false;
+  }
+
+  async findOne(id: number) {
+    const user = await this.prisma.user.findUnique({
       where: {
         id: id,
       },
     });
+
+    return user;
   }
 
   update(id: number, user: Prisma.UserUpdateInput) {

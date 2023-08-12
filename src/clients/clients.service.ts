@@ -24,6 +24,14 @@ export class ClientsService {
     });
   }
 
+  async findOneForUserId(userId: number) {
+    return await this.prisma.client.findUnique({
+      where: {
+        userId: userId,
+      },
+    });
+  }
+
   update(id: number, client: Prisma.ClientUpdateInput) {
     return this.prisma.client.update({
       data: client,

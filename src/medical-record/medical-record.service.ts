@@ -6,10 +6,10 @@ import { PrismaService } from 'prisma/prisma.service';
 export class MedicalRecordService {
   constructor(private prisma: PrismaService) {}
 
-  create(
+  async create(
     medicalRecord: Prisma.MedicalRecordCreateInput,
     psychologistId: number,
-    clientId?: number,
+    clientId: number,
   ) {
     const data: Prisma.MedicalRecordCreateInput = {
       ...medicalRecord,
@@ -18,23 +18,25 @@ export class MedicalRecordService {
           id: psychologistId,
         },
       },
-    };
-
-    if (clientId) {
-      data.client = {
+      client: {
         connect: {
           id: clientId,
         },
-      };
-    }
+      },
+    };
 
-    return this.prisma.medicalRecord.create({
+    return await this.prisma.medicalRecord.create({
       data: data,
     });
   }
 
-  findAll() {
-    return this.prisma.medicalRecord.findMany();
+  async findAll(clientId: number, psychologistId: number) {
+    return await this.prisma.medicalRecord.findMany({
+      where: {
+        clientId: clientId,
+        psychologistId: psychologistId,
+      },
+    });
   }
 
   findOne(id: number) {

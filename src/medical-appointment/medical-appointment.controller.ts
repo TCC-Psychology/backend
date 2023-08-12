@@ -27,7 +27,7 @@ export class MedicalAppointmentController {
     @Param('psychologistId') psychologistId: string,
   ) {
     if (clientId == 'null' || psychologistId == 'null')
-      return 'O paciente e o psicólogo devem ser informados';
+      return 'O paciente ou psicólogo devem ser informados';
 
     const cliente = await this.clienteService.findOne(Number(clientId));
     if (!cliente) {
@@ -41,6 +41,9 @@ export class MedicalAppointmentController {
       return 'O psicólogo não existe!';
     }
 
+    if (createMedicalAppointment.date) {
+      createMedicalAppointment.date = createMedicalAppointment.date + 'Z';
+    }
     return this.medicalAppointmentService.create(
       createMedicalAppointment,
       Number(clientId),
@@ -56,14 +59,14 @@ export class MedicalAppointmentController {
     if (clientId == 'null' && psychologistId == 'null')
       return 'O paciente ou o psicólogo deve ser informados';
 
-    if (clientId == 'null') {
+    if (clientId != 'null') {
       const cliente = await this.clienteService.findOne(Number(clientId));
       if (!cliente) {
         return 'O cliente não existe!';
       }
     }
 
-    if (psychologistId == 'null') {
+    if (psychologistId != 'null') {
       const psychologist = await this.psychologistService.findOne(
         Number(psychologistId),
       );
