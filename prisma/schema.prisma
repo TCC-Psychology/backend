@@ -9,7 +9,7 @@ datasource db {
 }
 
 model User {
-  id           Int           @id @default(autoincrement())
+  id           String        @id @default(uuid())
   name         String
   cpf          String
   birthDate    DateTime?
@@ -34,35 +34,26 @@ model Client {
   fatherOccupation    String?
   motherName          String?
   motherOccupation    String?
+  userId              String               @unique
+  user                User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
   medicalAppointments MedicalAppointment[]
+  medicalRecords      MedicalRecord[]
   notifications       Notification[]
   reviews             Review[]
-  medicalRecords      MedicalRecord[]
-  user                User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId              Int                  @unique
-}
-
-enum RelationshipStatus {
-  single
-  married
-  divorced
-  widowed
-  separated
-  domesticPartnership
 }
 
 model Psychologist {
   id                  Int                  @id @default(autoincrement())
-  certificationNumber String?               @unique
-  medicalAppointments MedicalAppointment[]
-  notifications       Notification[]
-  reviews             Review[]
-  medicalRecords      MedicalRecord[]
+  certificationNumber String?              @unique
+  userId              String               @unique
   academicFormations  AcademicFormation[]
-  targetAudiences     TargetAudience[]
-  segmentOfActivities SegmentOfActivity[]
+  medicalAppointments MedicalAppointment[]
+  medicalRecords      MedicalRecord[]
+  notifications       Notification[]
   user                User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId              Int                  @unique
+  reviews             Review[]
+  segmentOfActivities SegmentOfActivity[]  @relation("PsychologistToSegmentOfActivity")
+  targetAudiences     TargetAudience[]     @relation("PsychologistToTargetAudience")
 }
 
 model MedicalAppointment {
@@ -72,11 +63,99 @@ model MedicalAppointment {
   date            DateTime
   status          AppointmentStatus @default(PENDING)
   appointmentType AppointmentType
-  triage          Triage?
-  client          Client            @relation(fields: [clientId], references: [id])
   clientId        Int
-  psychologist    Psychologist      @relation(fields: [psychologistId], references: [id])
   psychologistId  Int
+  client          Client            @relation(fields: [clientId], references: [id])
+  psychologist    Psychologist      @relation(fields: [psychologistId], references: [id])
+  triage          Triage?
+}
+
+model Triage {
+  id                   Int                @id @default(autoincrement())
+  createdAt            DateTime           @default(now())
+  updatedAt            DateTime           @updatedAt
+  chiefComplaint       String
+  triggeringFacts      String
+  currentSymptoms      String
+  medicalAppointmentId Int                @unique
+  medicalAppointments  MedicalAppointment @relation(fields: [medicalAppointmentId], references: [id])
+}
+
+model Notification {
+  id             Int           @id @default(autoincrement())
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  description    String
+  viewed         Boolean       @default(false)
+  clientId       Int?
+  psychologistId Int?
+  client         Client?       @relation(fields: [clientId], references: [id])
+  psychologist   Psychologist? @relation(fields: [psychologistId], references: [id])
+}
+
+model Review {
+  id             Int          @id @default(autoincrement())
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  description    String?
+  rating         Int
+  clientId       Int
+  psychologistId Int
+  client         Client       @relation(fields: [clientId], references: [id])
+  psychologist   Psychologist @relation(fields: [psychologistId], references: [id])
+}
+
+model MedicalRecord {
+  id              Int          @id @default(autoincrement())
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+  notes           String?
+  theme           String
+  mood            String
+  objective       String
+  evolutionRecord String
+  clientId        Int
+  psychologistId  Int
+  client          Client       @relation(fields: [clientId], references: [id])
+  psychologist    Psychologist @relation(fields: [psychologistId], references: [id])
+}
+
+model AcademicFormation {
+  id             Int          @id @default(autoincrement())
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  institution    String
+  course         String
+  description    String?
+  startDate      DateTime
+  endDate        DateTime
+  psychologistId Int
+  psychologist   Psychologist @relation(fields: [psychologistId], references: [id])
+}
+
+model TargetAudience {
+  id           Int            @id @default(autoincrement())
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  tag          String
+  psychologist Psychologist[] @relation("PsychologistToTargetAudience")
+}
+
+model SegmentOfActivity {
+  id           Int            @id @default(autoincrement())
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  segment      String
+  psychologist Psychologist[] @relation("PsychologistToSegmentOfActivity")
+}
+
+enum RelationshipStatus {
+  single
+  married
+  divorced
+  widowed
+  separated
+  domesticPartnership
 }
 
 enum AppointmentType {
@@ -91,90 +170,11 @@ enum AppointmentStatus {
   CANCELLED
 }
 
-model Triage {
-  id                   Int                @id @default(autoincrement())
-  createdAt            DateTime           @default(now())
-  updatedAt            DateTime           @updatedAt
-  chiefComplaint       String
-  triggeringFacts      String
-  currentSymptoms      String
-  medicalAppointments  MedicalAppointment @relation(fields: [medicalAppointmentId], references: [id])
-  medicalAppointmentId Int                @unique
-}
-
-model Notification {
-  id             Int          @id @default(autoincrement())
-  createdAt      DateTime     @default(now())
-  updatedAt      DateTime     @updatedAt
-  description    String
-  viewed         Boolean      @default(false)
-  client         Client?       @relation(fields: [clientId], references: [id])
-  clientId       Int?
-  psychologist   Psychologist? @relation(fields: [psychologistId], references: [id])
-  psychologistId Int?
-}
-
-model Review {
-  id             Int          @id @default(autoincrement())
-  createdAt      DateTime     @default(now())
-  updatedAt      DateTime     @updatedAt
-  description    String?
-  rating         Int
-  client         Client       @relation(fields: [clientId], references: [id])
-  clientId       Int
-  psychologist   Psychologist @relation(fields: [psychologistId], references: [id])
-  psychologistId Int
-}
-
-model MedicalRecord {
-  id              Int          @id @default(autoincrement())
-  createdAt       DateTime     @default(now())
-  updatedAt       DateTime     @updatedAt
-  notes           String?
-  theme           String
-  mood            String //Devemos trocar para enum? e deixar pré definidas as opções de humor?
-  objective       String
-  evolutionRecord String
-  client          Client      @relation(fields: [clientId], references: [id])
-  clientId        Int
-  psychologist    Psychologist @relation(fields: [psychologistId], references: [id])
-  psychologistId  Int
-}
-
-model AcademicFormation {
-  id             Int          @id @default(autoincrement())
-  createdAt      DateTime     @default(now())
-  updatedAt      DateTime     @updatedAt
-  institution    String
-  course         String
-  description    String?
-  startDate      DateTime
-  endDate        DateTime
-  psychologist   Psychologist @relation(fields: [psychologistId], references: [id])
-  psychologistId Int
-}
-
-model TargetAudience {
-  id           Int            @id @default(autoincrement())
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
-  tag          String
-  psychologist Psychologist[]
-}
-
 enum Audience {
   CHILDREN
   TEENAGERS
   ADULTS
   SENIORS
-}
-
-model SegmentOfActivity {
-  id             Int                           @id @default(autoincrement())
-  createdAt      DateTime                      @default(now())
-  updatedAt      DateTime                      @updatedAt
-  segment        String
-  psychologist   Psychologist[]
 }
 
 enum PsychologistSegmentOfActivity {
