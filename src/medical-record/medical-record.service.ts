@@ -39,16 +39,16 @@ export class MedicalRecordService {
     });
   }
 
-  findOne(id: number) {
-    return this.prisma.medicalRecord.findUnique({
+  async findOne(id: number) {
+    return await this.prisma.medicalRecord.findUnique({
       where: {
         id: id,
       },
     });
   }
 
-  update(id: number, medicalRecord: Prisma.MedicalRecordUpdateInput) {
-    return this.prisma.medicalRecord.update({
+  async update(id: number, medicalRecord: Prisma.MedicalRecordUpdateInput) {
+    return await this.prisma.medicalRecord.update({
       data: { ...medicalRecord },
       where: {
         id: id,
@@ -56,8 +56,8 @@ export class MedicalRecordService {
     });
   }
 
-  remove(id: number) {
-    return this.prisma.medicalRecord.delete({
+  async remove(id: number) {
+    return await this.prisma.medicalRecord.delete({
       where: {
         id: id,
       },
