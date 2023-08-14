@@ -58,7 +58,7 @@ export class UsersController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.usersService.findOne(+id);
+    return this.usersService.findOne(id);
   }
 
   @Get('getUserByClientId/:clientId')
@@ -88,12 +88,12 @@ export class UsersController {
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() user: Prisma.UserUpdateInput) {
-    return this.usersService.update(+id, user);
+    return this.usersService.update(id, user);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    const user = this.usersService.remove(+id);
+    const user = this.usersService.remove(id);
     if (!user) {
       throw new NotFoundException('User not found');
     }
