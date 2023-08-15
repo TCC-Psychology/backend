@@ -63,10 +63,16 @@ export class UsersService {
     return user;
   }
 
-  async getUserByProperties(cpf: string): Promise<User | null> {
+  async getUserByProperties(
+    cpf: string | null,
+    phone: string | null,
+    email: string | null,
+  ): Promise<User | null> {
     const user = await this.prisma.user.findFirst({
       where: {
-        cpf: cpf,
+        cpf: cpf !== 'null' ? cpf : undefined,
+        phone: phone !== 'null' ? phone : undefined,
+        email: email !== 'null' && email !== '' ? email : undefined,
       },
     });
 
