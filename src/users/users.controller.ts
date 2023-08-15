@@ -81,11 +81,6 @@ export class UsersController {
     return this.usersService.getUserByProperties(cpf);
   }
 
-  @Get('login/:phone/:password')
-  canLogin(@Param('phone') phone: string, @Param('senha') password: string) {
-    return this.usersService.canLogin(phone, password);
-  }
-
   @Patch(':id')
   update(@Param('id') id: string, @Body() user: Prisma.UserUpdateInput) {
     return this.usersService.update(id, user);
