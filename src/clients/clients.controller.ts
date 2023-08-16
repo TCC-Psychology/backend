@@ -31,7 +31,7 @@ export class ClientsController {
 
   @Get('getClientByUserId/:userId')
   findOneByUserId(@Param('userId') userId: string) {
-    return this.clientsService.findOneByUserId(Number(userId));
+    return this.clientsService.findOneByUserId(userId);
   }
 
   @Patch(':id')

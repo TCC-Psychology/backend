@@ -24,7 +24,7 @@ export class ClientsService {
     });
   }
 
-  async findOneByUserId(userId: number) {
+  async findOneByUserId(userId: string) {
     return await this.prisma.client.findUnique({
       where: {
         userId: userId,

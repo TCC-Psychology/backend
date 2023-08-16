@@ -73,18 +73,7 @@ export class UsersService {
     return user;
   }
 
-  async canLogin(phone: string, password: string): Promise<boolean> {
-    const user = await this.prisma.user.findFirst({
-      where: {
-        phone: phone,
-        password: password,
-      },
-    });
-
-    return user != null ? true : false;
-  }
-
-  async findOne(id: number) {
+  async findOne(id: string) {
     const user = await this.prisma.user.findUnique({
       where: {
         id: id,
@@ -94,7 +83,7 @@ export class UsersService {
     return user;
   }
 
-  update(id: number, user: Prisma.UserUpdateInput) {
+  update(id: string, user: Prisma.UserUpdateInput) {
     return this.prisma.user.update({
       data: user,
       where: {
@@ -103,7 +92,7 @@ export class UsersService {
     });
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return this.prisma.user.delete({
       where: { id },
     });
