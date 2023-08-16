@@ -19,6 +19,7 @@ model User {
   cep          String?
   description  String?
   gender       String?
+  phone        String
   client       Client?
   psychologist Psychologist?
 }
