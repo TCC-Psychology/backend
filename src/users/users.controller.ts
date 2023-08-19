@@ -58,7 +58,9 @@ export class UsersController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.usersService.findOne(id);
+    const user = this.usersService.findOne(id);
+
+    return user;
   }
 
   @Get('getUserByClientId/:clientId')
@@ -76,9 +78,13 @@ export class UsersController {
   }
 
   //Use essa rota para colocar varios params  nulaveis.  Exemplo : Email, numero, cpf e etc
-  @Get('getUserByProperties/:cpf')
-  getUserByProperties(@Param('cpf') cpf: string) {
-    return this.usersService.getUserByProperties(cpf);
+  @Get('getUserByProperties/:cpf/:phone/:email')
+  getUserByProperties(
+    @Param('cpf') cpf: string,
+    @Param('phone') phone: string,
+    //@Param('email') email: string,
+  ) {
+    return this.usersService.getUserByProperties(cpf, phone); //, email);
   }
 
   @Patch(':id')

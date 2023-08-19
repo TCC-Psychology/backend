@@ -41,4 +41,11 @@ export class PsychologistController {
   remove(@Param('id') id: string) {
     return this.psychologistService.remove(+id);
   }
+
+  @Get('findOneByUserId/:userId')
+  async findOneByUserId(@Param('userId') id: string) {
+    const userPsychologist = await this.psychologistService.findOneByUserId(id);
+
+    return userPsychologist;
+  }
 }

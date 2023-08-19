@@ -40,4 +40,12 @@ export class PsychologistService {
       },
     });
   }
+
+  async findOneByUserId(userId: string) {
+    return await this.prisma.psychologist.findUnique({
+      where: {
+        userId: userId,
+      },
+    });
+  }
 }

@@ -48,7 +48,7 @@ export class MedicalRecordController {
     @Param('id') id: string,
     @Body() medicalRecord: Prisma.MedicalRecordUpdateInput,
   ) {
-    return this.medicalRecordService.update(+id, medicalRecord);
+    return this.medicalRecordService.update(Number(id), medicalRecord);
   }
 
   @Delete(':id')
