@@ -58,7 +58,9 @@ export class UsersController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.usersService.findOne(id);
+    const user = this.usersService.findOne(id);
+
+    return user;
   }
 
   @Get('getUserByClientId/:clientId')
@@ -80,9 +82,9 @@ export class UsersController {
   getUserByProperties(
     @Param('cpf') cpf: string,
     @Param('phone') phone: string,
-    @Param('email') email: string,
+    //@Param('email') email: string,
   ) {
-    return this.usersService.getUserByProperties(cpf, phone, email);
+    return this.usersService.getUserByProperties(cpf, phone); //, email);
   }
 
   @Patch(':id')
