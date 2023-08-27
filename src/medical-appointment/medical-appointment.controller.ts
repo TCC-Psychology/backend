@@ -40,10 +40,6 @@ export class MedicalAppointmentController {
     if (!psychologist) {
       return 'O psicólogo não existe!';
     }
-
-    if (createMedicalAppointment.date) {
-      createMedicalAppointment.date = createMedicalAppointment.date + 'Z';
-    }
     return this.medicalAppointmentService.create(
       createMedicalAppointment,
       Number(clientId),
