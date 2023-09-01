@@ -16,8 +16,8 @@ export class ClientsService {
     return this.prisma.client.findMany();
   }
 
-  findOne(id: number) {
-    return this.prisma.client.findUnique({
+  async findOne(id: number) {
+    return await this.prisma.client.findUnique({
       where: {
         id: id,
       },
