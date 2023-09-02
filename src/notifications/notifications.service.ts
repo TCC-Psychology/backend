@@ -38,8 +38,13 @@ export class NotificationsService {
     });
   }
 
-  findAll() {
-    return this.prisma.notification.findMany();
+  findAll(filter: Prisma.NotificationWhereInput) {
+    return this.prisma.notification.findMany({
+      where: filter,
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
   }
 
   findOne(id: number) {
