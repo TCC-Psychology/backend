@@ -10,31 +10,29 @@ import {
 import { Prisma } from '@prisma/client';
 import { UsersController } from 'src/users/users.controller';
 import { AcademicFormationService } from './academic-formation.service';
+import { PsychologistController } from 'src/psychologist/psychologist.controller';
 
 @Controller('academic-formation')
 export class AcademicFormationController {
   constructor(
     private readonly academicFormationService: AcademicFormationService,
     private readonly userClient: UsersController,
+    private readonly psychologistClient: PsychologistController,
   ) {}
 
-  @Post()
+  @Post(':userId')
   async create(
+    @Param('userId') userId: string,
     @Body() createAcademicFormationDto: Prisma.AcademicFormationCreateInput,
   ) {
-    //TODO - Create the function to get the ID of the user doing the record/update action.
-    const connectedPsychologistId = '1';
-    const connectedPsychologistIdNumber = 1;
-    const userConnected = await this.userClient.findOne(
-      connectedPsychologistId,
-    );
-    if (!userConnected) {
-      return 'O usuario não foi encontrado!';
+    const psychologist = await this.psychologistClient.findOneByUserId(userId);
+    if (!psychologist) {
+      return 'O psicologo não foi encontrado!';
     }
 
     return this.academicFormationService.create(
       createAcademicFormationDto,
-      connectedPsychologistIdNumber,
+      psychologist.id,
     );
   }
 
@@ -64,20 +62,9 @@ export class AcademicFormationController {
     const academicFormationExits = await this.academicFormationService.findOne(
       Number(id),
     );
-
     if (!academicFormationExits) {
       return 'A formação acadêmica não foi encontrada';
     }
-
-    //TODO - Create the function to get the ID of the user doing the record/update action.
-    const connectedPsychologistId = '1';
-    const userFormation = await this.userClient.findOne(
-      connectedPsychologistId,
-    );
-    if (!userFormation) {
-      return 'O usuario não foi encontrado!';
-    }
-
     return await this.academicFormationService.update(
       Number(id),
       updateAcademicFormationDto,

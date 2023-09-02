@@ -84,6 +84,7 @@ export class UsersService {
       where: {
         id: id,
       },
+      include: { psychologist: true },
     });
 
     return user;
