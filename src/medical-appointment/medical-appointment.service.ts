@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'prisma/prisma.service';
-import { Prisma } from '@prisma/client';
+import { AppointmentStatus, Prisma } from '@prisma/client';
 
 interface WhereConditions {
   client?: {
@@ -95,5 +95,40 @@ export class MedicalAppointmentService {
     });
 
     return `A consulta foi removida!`;
+  }
+
+  async findAllByAppointmentStatus(
+    clientId?: number | null,
+    psychologistId?: number | null,
+    appointmentStatus?: AppointmentStatus,
+  ) {
+    const whereConditions: WhereConditions = {};
+
+    if (clientId !== null) {
+      whereConditions.client = {
+        id: clientId,
+      };
+    }
+
+    if (psychologistId !== null) {
+      whereConditions.psychologist = {
+        id: psychologistId,
+      };
+    }
+
+    const medicalAppointmentUserRelated =
+      await this.prisma.medicalAppointment.findMany({
+        where: {
+          ...(whereConditions.client && {
+            clientId: whereConditions.client.id,
+          }),
+          ...(whereConditions.psychologist && {
+            psychologistId: whereConditions.psychologist.id,
+          }),
+          status: appointmentStatus,
+        },
+      });
+
+    return medicalAppointmentUserRelated;
   }
 }

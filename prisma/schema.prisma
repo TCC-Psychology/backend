@@ -165,7 +165,7 @@ enum AppointmentStatus {
   PENDING
   CONFIRMED
   RESCHEDULED
-  CANCELLED
+  CANCELED
 }
 
 enum Audience {

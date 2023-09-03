@@ -8,7 +8,7 @@ import {
   Delete,
 } from '@nestjs/common';
 import { MedicalAppointmentService } from './medical-appointment.service';
-import { Prisma } from '@prisma/client';
+import { AppointmentStatus, Prisma } from '@prisma/client';
 import { ClientsService } from 'src/clients/clients.service';
 import { PsychologistService } from 'src/psychologist/psychologist.service';
 
@@ -39,10 +39,6 @@ export class MedicalAppointmentController {
     );
     if (!psychologist) {
       return 'O psicólogo não existe!';
-    }
-
-    if (createMedicalAppointment.date) {
-      createMedicalAppointment.date = createMedicalAppointment.date + 'Z';
     }
     return this.medicalAppointmentService.create(
       createMedicalAppointment,
@@ -100,5 +96,32 @@ export class MedicalAppointmentController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.medicalAppointmentService.remove(Number(id));
+  }
+
+  @Get(':clientId/:psychologistId/:appointmentStatus')
+  async findAllByAppointmentStatus(
+    @Param('clientId') clientId: string,
+    @Param('psychologistId') psychologistId: string,
+    @Param('appointmentStatus') appointmentStatus: AppointmentStatus,
+  ) {
+    return this.medicalAppointmentService.findAllByAppointmentStatus(
+      clientId != 'null' ? Number(clientId) : null,
+      psychologistId != 'null' ? Number(psychologistId) : null,
+      this.convertApiStatusToAppointmentStatus(appointmentStatus),
+    );
+  }
+
+  convertApiStatusToAppointmentStatus(
+    appointmentStatus: string,
+  ): AppointmentStatus | null {
+    if (appointmentStatus === 'confirmed') {
+      return AppointmentStatus.CONFIRMED;
+    } else if (appointmentStatus === 'pending') {
+      return AppointmentStatus.PENDING;
+    } else if (appointmentStatus === 'rescheduled') {
+      return AppointmentStatus.RESCHEDULED;
+    } else {
+      return AppointmentStatus.CANCELED;
+    }
   }
 }
