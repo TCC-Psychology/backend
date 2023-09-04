@@ -32,8 +32,8 @@ export class ClientsService {
     });
   }
 
-  update(id: number, client: Prisma.ClientUpdateInput) {
-    return this.prisma.client.update({
+  async update(id: number, client: Prisma.ClientUpdateInput) {
+    return await this.prisma.client.update({
       data: client,
       where: {
         id: id,
