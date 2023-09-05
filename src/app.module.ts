@@ -13,9 +13,12 @@ import { MedicalAppointmentModule } from './medical-appointment/medical-appointm
 import { NotificationsModule } from './notifications/notifications.module';
 import { ReviewModule } from './review/review.module';
 import { PrismaModule } from 'prisma/prisma.module';
+import { AuthModule } from './auth/auth.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot(),
     UsersModule,
     PsychologistModule,
     ClientsModule,
@@ -28,6 +31,7 @@ import { PrismaModule } from 'prisma/prisma.module';
     NotificationsModule,
     ReviewModule,
     PrismaModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
