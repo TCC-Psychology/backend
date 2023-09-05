@@ -27,7 +27,7 @@ export class TriageService {
   async findOne(id: number) {
     const triage = await this.prisma.triage.findFirst({
       where: {
-        id: id,
+        medicalAppointmentId: id,
       },
     });
 

@@ -46,9 +46,9 @@ export class NotificationsController {
     );
   }
 
-  @Get()
-  findAll() {
-    return this.notificationsService.findAll();
+  @Post()
+  findAll(@Body() filter: Prisma.NotificationWhereInput) {
+    return this.notificationsService.findAll(filter);
   }
 
   @Get(':id')

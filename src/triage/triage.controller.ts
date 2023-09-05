@@ -26,8 +26,9 @@ export class TriageController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.triageService.findOne(Number(id));
+  async findOne(@Param('id') id: string) {
+    const triage = await this.triageService.findOne(Number(id));
+    return triage;
   }
 
   @Patch(':id')
