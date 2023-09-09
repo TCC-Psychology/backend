@@ -17,6 +17,6 @@ export class AuthService {
       throw new Error(response.error.message);
     }
 
-    return response.data;
+    return response.data.user.id;
   }
 }
