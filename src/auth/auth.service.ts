@@ -1,16 +1,22 @@
 import { Injectable } from '@nestjs/common';
-import { supabase } from 'src/config/supabase';
+import { SupabaseService } from 'src/config/supabase/supabase.service';
 
 @Injectable()
 export class AuthService {
-  async signIn(email: string, password: string) {
-    const response = await supabase.auth.signInWithPassword({
+  constructor(private readonly supabaseService: SupabaseService) {}
+
+  async signUp(email: string, password: string) {
+    const supabaseClient = await this.supabaseService.getClient();
+
+    const response = await supabaseClient.auth.signUp({
       email,
       password,
     });
+
     if (response.error) {
       throw new Error(response.error.message);
     }
+
     return response.data;
   }
 }

@@ -5,11 +5,11 @@ import { AuthService } from './auth.service';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Post('signIn')
+  @Post('signUp')
   async signIn(
     @Body('email') email: string,
     @Body('password') password: string,
   ) {
-    return this.authService.signIn(email, password);
+    return this.authService.signUp(email, password);
   }
 }
