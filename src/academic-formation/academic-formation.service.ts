@@ -8,14 +8,14 @@ export class AcademicFormationService {
 
   async create(
     createAcademicFormationDto: Prisma.AcademicFormationCreateInput,
-    connectedPsychologistId: number,
+    psychologistId: number,
   ) {
     const academicFormation = await this.prisma.academicFormation.create({
       data: {
         ...createAcademicFormationDto,
         psychologist: {
           connect: {
-            id: connectedPsychologistId,
+            id: psychologistId,
           },
         },
       },
@@ -60,5 +60,17 @@ export class AcademicFormationService {
     });
 
     return `A formação acadêmica foi removida!`;
+  }
+
+  async findAllByPsychologist(psychologistId: number) {
+    const list = await this.prisma.academicFormation.findMany({
+      where: {
+        psychologist: {
+          id: psychologistId,
+        },
+      },
+    });
+
+    return list;
   }
 }

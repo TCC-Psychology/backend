@@ -8,33 +8,22 @@ import {
   Delete,
 } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
-import { UsersController } from 'src/users/users.controller';
 import { AcademicFormationService } from './academic-formation.service';
 
 @Controller('academic-formation')
 export class AcademicFormationController {
   constructor(
     private readonly academicFormationService: AcademicFormationService,
-    private readonly userClient: UsersController,
   ) {}
 
-  @Post()
+  @Post(':psychologistId')
   async create(
+    @Param('psychologistId') psychologistId: string,
     @Body() createAcademicFormationDto: Prisma.AcademicFormationCreateInput,
   ) {
-    //TODO - Create the function to get the ID of the user doing the record/update action.
-    const connectedPsychologistId = '1';
-    const connectedPsychologistIdNumber = 1;
-    const userConnected = await this.userClient.findOne(
-      connectedPsychologistId,
-    );
-    if (!userConnected) {
-      return 'O usuario não foi encontrado!';
-    }
-
     return this.academicFormationService.create(
       createAcademicFormationDto,
-      connectedPsychologistIdNumber,
+      Number(psychologistId),
     );
   }
 
@@ -69,15 +58,6 @@ export class AcademicFormationController {
       return 'A formação acadêmica não foi encontrada';
     }
 
-    //TODO - Create the function to get the ID of the user doing the record/update action.
-    const connectedPsychologistId = '1';
-    const userFormation = await this.userClient.findOne(
-      connectedPsychologistId,
-    );
-    if (!userFormation) {
-      return 'O usuario não foi encontrado!';
-    }
-
     return await this.academicFormationService.update(
       Number(id),
       updateAcademicFormationDto,
@@ -94,5 +74,12 @@ export class AcademicFormationController {
     }
 
     return this.academicFormationService.remove(Number(id));
+  }
+
+  @Get('getAcademic-formation/:psychologistId')
+  findAllByPsychologist(@Param('psychologistId') psychologistId: string) {
+    return this.academicFormationService.findAllByPsychologist(
+      Number(psychologistId),
+    );
   }
 }

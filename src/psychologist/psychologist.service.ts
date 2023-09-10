@@ -24,8 +24,8 @@ export class PsychologistService {
     });
   }
 
-  update(id: number, psychologist: Prisma.PsychologistUpdateInput) {
-    return this.prisma.psychologist.update({
+  async update(id: number, psychologist: Prisma.PsychologistUpdateInput) {
+    return await this.prisma.psychologist.update({
       data: psychologist,
       where: {
         id: id,
