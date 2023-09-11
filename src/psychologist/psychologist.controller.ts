@@ -48,4 +48,12 @@ export class PsychologistController {
 
     return userPsychologist;
   }
+
+  @Get(':userId/:relation')
+  async getPsychologistRelations(
+    @Param('userId') userId: string,
+    @Param('relation') relation: 'targetAudiences' | 'segmentOfActivities',
+  ) {
+    return this.psychologistService.findPsychologistRelations(userId, relation);
+  }
 }

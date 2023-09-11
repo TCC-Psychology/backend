@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { TargetAudiencesService } from './target-audiences.service';
 import { Prisma } from '@prisma/client';
@@ -42,22 +43,24 @@ export class TargetAudiencesController {
     return this.targetAudiencesService.update(Number(id), targetAudiences);
   }
 
+  @Post('connectPsychologist')
   connectPsychologist(
-    @Param('psychologistId') psychologistId: string,
-    @Param('targetAudienceId') targetAudienceId: string,
+    @Query('userId') userId: string,
+    @Query('targetAudienceId') targetAudienceId: string,
   ) {
     return this.targetAudiencesService.connectPsychologist(
-      Number(psychologistId),
+      userId,
       Number(targetAudienceId),
     );
   }
 
+  @Post('disconnectPsychologist')
   disconnectPsychologist(
-    @Param('psychologistId') psychologistId: string,
+    @Param('userId') userId: string,
     @Param('targetAudienceId') targetAudienceId: string,
   ) {
     return this.targetAudiencesService.disconnectPsychologist(
-      Number(psychologistId),
+      userId,
       Number(targetAudienceId),
     );
   }

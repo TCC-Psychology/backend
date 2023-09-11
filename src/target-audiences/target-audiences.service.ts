@@ -34,13 +34,14 @@ export class TargetAudiencesService {
       },
     });
   }
+  s;
 
-  connectPsychologist(psychologistId: number, targetAudienceId: number) {
+  connectPsychologist(userId: string, targetAudienceId: number) {
     return this.prisma.targetAudience.update({
       data: {
         psychologist: {
           connect: {
-            id: psychologistId,
+            userId: userId,
           },
         },
       },
@@ -50,12 +51,12 @@ export class TargetAudiencesService {
     });
   }
 
-  disconnectPsychologist(psychologistId: number, targetAudienceId: number) {
+  disconnectPsychologist(userId: string, targetAudienceId: number) {
     return this.prisma.targetAudience.update({
       data: {
         psychologist: {
           disconnect: {
-            id: psychologistId,
+            userId: userId,
           },
         },
       },
