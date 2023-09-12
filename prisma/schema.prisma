@@ -21,6 +21,13 @@ model User {
   phone        String
   client       Client?
   psychologist Psychologist?
+  userType     UserType
+}
+
+enum UserType {
+  CLIENT
+  PSYCHOLOGIST
+  ADMIN
 }
 
 model Client {
