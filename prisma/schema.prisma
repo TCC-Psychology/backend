@@ -3,9 +3,8 @@ generator client {
 }
 
 datasource db {
-  provider          = "postgresql"
-  url               = env("DATABASE_URL")
-  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model User {
@@ -135,7 +134,7 @@ model TargetAudience {
   id           Int            @id @default(autoincrement())
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @updatedAt
-  tag          String
+  title        String
   psychologist Psychologist[] @relation("PsychologistToTargetAudience")
 }
 
@@ -143,7 +142,7 @@ model SegmentOfActivity {
   id           Int            @id @default(autoincrement())
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @updatedAt
-  segment      String
+  title        String
   psychologist Psychologist[] @relation("PsychologistToSegmentOfActivity")
 }
 
@@ -165,7 +164,7 @@ enum AppointmentStatus {
   PENDING
   CONFIRMED
   RESCHEDULED
-  CANCELED
+  CANCELLED
 }
 
 enum Audience {

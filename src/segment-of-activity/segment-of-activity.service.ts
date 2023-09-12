@@ -43,12 +43,12 @@ export class SegmentOfActivityService {
     });
   }
 
-  connectPsychologist(psychologistId: number, targetAudienceId: number) {
+  connectPsychologist(userId: string, targetAudienceId: number) {
     return this.prisma.segmentOfActivity.update({
       data: {
         psychologist: {
           connect: {
-            id: psychologistId,
+            userId: userId,
           },
         },
       },
@@ -58,12 +58,12 @@ export class SegmentOfActivityService {
     });
   }
 
-  disconnectPsychologist(psychologistId: number, targetAudienceId: number) {
+  disconnectPsychologist(userId: string, targetAudienceId: number) {
     return this.prisma.segmentOfActivity.update({
       data: {
         psychologist: {
           disconnect: {
-            id: psychologistId,
+            userId: userId,
           },
         },
       },

@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { SegmentOfActivityService } from './segment-of-activity.service';
 import { Prisma } from '@prisma/client';
@@ -31,23 +32,25 @@ export class SegmentOfActivityController {
     return this.segmentOfActivityService.findOne(+id);
   }
 
+  @Post('connectPsychologist')
   connectPsychologist(
-    @Param('psychologistId') psychologistId: string,
-    @Param('targetAudienceId') targetAudienceId: string,
+    @Query('userId') userId: string,
+    @Query('segmentOfActivityId') segmentOfActivityId: string,
   ) {
     return this.segmentOfActivityService.connectPsychologist(
-      Number(psychologistId),
-      Number(targetAudienceId),
+      userId,
+      Number(segmentOfActivityId),
     );
   }
 
+  @Post('disconnectPsychologist')
   disconnectPsychologist(
-    @Param('psychologistId') psychologistId: string,
-    @Param('targetAudienceId') targetAudienceId: string,
+    @Query('userId') userId: string,
+    @Query('segmentOfActivityId') segmentOfActivityId: string,
   ) {
     return this.segmentOfActivityService.disconnectPsychologist(
-      Number(psychologistId),
-      Number(targetAudienceId),
+      userId,
+      Number(segmentOfActivityId),
     );
   }
 
