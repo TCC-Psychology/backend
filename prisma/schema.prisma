@@ -19,6 +19,8 @@ model User {
   description  String?
   gender       String?
   phone        String
+  latitude     String?
+  longitude    String?
   client       Client?
   psychologist Psychologist?
   userType     UserType
