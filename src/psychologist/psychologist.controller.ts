@@ -9,6 +9,7 @@ import {
 } from '@nestjs/common';
 import { PsychologistService } from './psychologist.service';
 import { Prisma } from '@prisma/client';
+import { FindAllDto } from './dto/find-all-psychologist.dto';
 
 @Controller('psychologist')
 export class PsychologistController {
@@ -19,9 +20,12 @@ export class PsychologistController {
     return this.psychologistService.create(psychologist);
   }
 
-  @Get()
-  findAll() {
-    return this.psychologistService.findAll();
+  @Post('findAllPsychologists')
+  findAll(@Body() data: FindAllDto) {
+    return this.psychologistService.findAll(
+      data.targetAudienceIds,
+      data.segmentOfActivityIds,
+    );
   }
 
   @Get(':id')
