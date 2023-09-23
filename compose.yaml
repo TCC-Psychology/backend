@@ -17,6 +17,15 @@ services:
       - 3000:3000
     env_file:
       - .env
+  database:
+    image: postgres
+    restart: always
+    volumes:
+     - pgdata:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: sua-senha
+    ports:
+      - 5432:5432
 
 # The commented out section below is an example of how to define a PostgreSQL
 # database that your application can use. `depends_on` tells Docker Compose to
