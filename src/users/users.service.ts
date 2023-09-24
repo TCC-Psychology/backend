@@ -9,7 +9,7 @@ export class UsersService {
     user: Prisma.UserCreateInput,
     psychologist: Prisma.PsychologistCreateInput,
   ) {
-    return this.prisma.user.create({
+    const userCreated = this.prisma.user.create({
       data: {
         ...user,
         psychologist: {
@@ -17,6 +17,8 @@ export class UsersService {
         },
       },
     });
+
+    return userCreated;
   }
 
   async createUserAndClient(

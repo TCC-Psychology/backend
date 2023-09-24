@@ -36,7 +36,7 @@ export class ClientsController {
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() client: Prisma.ClientUpdateInput) {
-    return this.clientsService.update(+id, client);
+    return this.clientsService.update(Number(id), client);
   }
 
   @Delete(':id')
