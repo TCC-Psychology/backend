@@ -12,8 +12,37 @@ export class PsychologistService {
     });
   }
 
-  findAll() {
-    return this.prisma.psychologist.findMany();
+  findAll(targetAudienceIds?: number[], segmentOfActivityIds?: number[]) {
+    const whereInput: Prisma.PsychologistWhereInput = {};
+
+    if (targetAudienceIds && targetAudienceIds.length) {
+      whereInput.targetAudiences = {
+        some: {
+          id: {
+            in: targetAudienceIds,
+          },
+        },
+      };
+    }
+
+    if (segmentOfActivityIds && segmentOfActivityIds.length) {
+      whereInput.segmentOfActivities = {
+        some: {
+          id: {
+            in: segmentOfActivityIds,
+          },
+        },
+      };
+    }
+
+    return this.prisma.psychologist.findMany({
+      where: whereInput,
+      include: {
+        user: true,
+        targetAudiences: true,
+        segmentOfActivities: true,
+      },
+    });
   }
 
   findOne(id: number) {
