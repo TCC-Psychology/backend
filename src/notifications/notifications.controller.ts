@@ -14,34 +14,24 @@ import { Prisma } from '@prisma/client';
 export class NotificationsController {
   constructor(private readonly notificationsService: NotificationsService) {}
 
-  @Post('createForClient')
-  createForClient(
-    @Body()
-    data: {
-      notification: Prisma.NotificationCreateInput;
-      clientId?: string;
-    },
+  @Post('createForClient/:clientId')
+  async createForClient(
+    @Body() createNotification: Prisma.NotificationCreateInput,
+    @Param('clientId') clientId: string,
   ) {
-    const { notification, clientId } = data;
-
-    return this.notificationsService.createForClient(
-      notification,
+    return await this.notificationsService.createForClient(
+      createNotification,
       Number(clientId),
     );
   }
 
-  @Post('createForPsychologist')
-  createForPsychologist(
-    @Body()
-    data: {
-      notification: Prisma.NotificationCreateInput;
-      psychologistId: string;
-    },
+  @Post('createForPsychologist/:psychologistId')
+  async createForPsychologist(
+    @Body() createNotification: Prisma.NotificationCreateInput,
+    @Param('psychologistId') psychologistId: string,
   ) {
-    const { notification, psychologistId } = data;
-
-    return this.notificationsService.createForPsychologist(
-      notification,
+    return await this.notificationsService.createForPsychologist(
+      createNotification,
       Number(psychologistId),
     );
   }

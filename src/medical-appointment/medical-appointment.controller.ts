@@ -121,7 +121,7 @@ export class MedicalAppointmentController {
     } else if (appointmentStatus === 'rescheduled') {
       return AppointmentStatus.RESCHEDULED;
     } else {
-      return AppointmentStatus.CANCELLED;
+      return AppointmentStatus.CANCELED;
     }
   }
 }
