@@ -6,11 +6,11 @@ import { PrismaService } from 'prisma/prisma.service';
 export class NotificationsService {
   constructor(private prisma: PrismaService) {}
 
-  createForClient(
+  async createForClient(
     notification: Prisma.NotificationCreateInput,
     clientId: number,
   ) {
-    return this.prisma.notification.create({
+    return await this.prisma.notification.create({
       data: {
         ...notification,
         client: {
@@ -39,8 +39,20 @@ export class NotificationsService {
   }
 
   findAll(filter: Prisma.NotificationWhereInput) {
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+
     return this.prisma.notification.findMany({
-      where: filter,
+      where: {
+        AND: [
+          filter,
+          {
+            createdAt: {
+              gte: sevenDaysAgo,
+            },
+          },
+        ],
+      },
       orderBy: {
         createdAt: 'desc',
       },
